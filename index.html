@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Practice files for the ebook Data Analytics with AI, by Shaista Sabir.">
+<title>Data Analytics with AI</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Schibsted+Grotesk:wght@600;700&display=swap">
+<style>
+/* Layout: one narrow column that reads like a worksheet. Title block, then two file sheets with live-looking row previews, then short setup notes. */
+:root {
+  --bg: #f1f4f6;
+  --surface: #ffffff;
+  --ink: #16202a;
+  --muted: #55626f;
+  --line: #d3dae0;
+  --accent: #0a6a5a;
+  --accent-ink: #ffffff;
+  --accent-soft: #e0f0ec;
+  --flag: #a8470f;
+  --flag-soft: #fbe9dc;
+  --font-display: "Schibsted Grotesk", "Segoe UI", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1318;
+    --surface: #161d24;
+    --ink: #e7ecf0;
+    --muted: #9aa8b4;
+    --line: #29333d;
+    --accent: #4fc2aa;
+    --accent-ink: #07201a;
+    --accent-soft: #12302a;
+    --flag: #f0a46c;
+    --flag-soft: #3a2616;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1318;
+  --surface: #161d24;
+  --ink: #e7ecf0;
+  --muted: #9aa8b4;
+  --line: #29333d;
+  --accent: #4fc2aa;
+  --accent-ink: #07201a;
+  --accent-soft: #12302a;
+  --flag: #f0a46c;
+  --flag-soft: #3a2616;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+}
+.wrap {
+  max-width: 880px;
+  margin: 0 auto;
+  padding-block: 40px 56px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 8px;
+}
+h1 {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 6vw, 48px);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin: 0 0 12px;
+  text-wrap: balance;
+}
+.sub { font-size: 18px; color: var(--muted); margin: 0 0 20px; max-width: 60ch; }
+.lead { margin: 0; max-width: 62ch; }
+h2 {
+  font-family: var(--font-display);
+  font-size: 24px;
+  letter-spacing: -0.01em;
+  margin: 0 0 16px;
+  text-wrap: balance;
+}
+.sheets { display: flex; flex-direction: column; gap: 24px; }
+.sheet {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  min-width: 0;
+}
+.sheet-head {
+  padding: 20px 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-bottom: 1px solid var(--line);
+}
+.tag {
+  align-self: flex-start;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  padding: 2px 8px;
+  border-radius: 3px;
+}
+.fname { font-family: var(--font-mono); font-size: 15px; font-weight: 500; margin: 0; overflow-wrap: anywhere; }
+.desc { margin: 0; color: var(--muted); max-width: 62ch; }
+.meta { display: flex; flex-wrap: wrap; gap: 4px 20px; font-family: var(--font-mono); font-size: 13px; color: var(--muted); margin: 0; padding: 0; list-style: none; }
+.scroller { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; min-width: 560px; font-family: var(--font-mono); font-size: 13px; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 8px 14px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th { font-weight: 500; color: var(--muted); background: var(--bg); }
+td.num, th.num { text-align: right; }
+td.flag { background: var(--flag-soft); color: var(--flag); font-weight: 500; }
+td.blank { background: var(--flag-soft); color: var(--flag); }
+.legend { margin: 0; padding: 12px 20px; font-size: 14px; color: var(--muted); border-bottom: 1px solid var(--line); }
+.legend b { background: var(--flag-soft); color: var(--flag); padding: 1px 6px; border-radius: 3px; font-weight: 500; }
+.actions { padding: 16px 20px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+button {
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 9px 16px;
+  border: 1px solid var(--accent);
+}
+button.primary { background: var(--accent); color: var(--accent-ink); }
+button.secondary { background: transparent; color: var(--accent); }
+button:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+button:disabled { opacity: 0.55; cursor: default; }
+.status { font-size: 14px; color: var(--muted); min-height: 1.5em; margin: 0; flex: 1 1 220px; }
+ol.steps { margin: 0; padding: 0; list-style: none; display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); counter-reset: s; }
+ol.steps li { counter-increment: s; border-top: 2px solid var(--accent); padding-top: 12px; min-width: 0; }
+ol.steps li::before { content: "Step " counter(s); display: block; font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 4px; }
+ol.steps strong { display: block; font-family: var(--font-display); font-size: 17px; margin-bottom: 4px; }
+ol.steps span { color: var(--muted); font-size: 15px; }
+.note { border-left: 3px solid var(--line); padding-left: 16px; color: var(--muted); font-size: 15px; max-width: 70ch; }
+.note p { margin: 0 0 8px; }
+.note p:last-child { margin: 0; }
+footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 20px; max-width: 70ch; }
+footer p { margin: 0 0 8px; }
+@media (prefers-reduced-motion: no-preference) { button { transition: background-color 0.15s, color 0.15s; } }
+
+[hidden]{display:none!important}
+a.btn{display:inline-block;font:inherit;font-weight:500;text-decoration:none;border-radius:4px;padding:9px 16px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink)}
+a.btn:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Book resources</p>
+    <h1>Data Analytics with AI</h1>
+    <p class="sub">Learn data skills from zero and earn online</p>
+    <p class="lead">These are the practice files used in the exercises. Both are made-up sales records for a small shop called Sunrise Corner Store. Every name and number is invented, so you can use them freely to practice.</p>
+  </header>
+
+  <section aria-labelledby="files-h">
+    <h2 id="files-h">Practice files</h2>
+    <div class="sheets">
+
+      <article class="sheet">
+        <div class="sheet-head">
+          <span class="tag">Chapter 4</span>
+          <p class="fname">sunrise_corner_store_sales.csv</p>
+          <p class="desc">A clean sales sheet. Use it to practice formulas, SUMIF, pivot tables and charts.</p>
+          <ul class="meta"><li>500 rows</li><li>6 columns</li><li>Mar to Apr 2026</li><li>20 KB</li></ul>
+        </div>
+        <div class="scroller">
+          <table>
+            <thead><tr><th>Date</th><th>Item</th><th>Category</th><th class="num">Quantity</th><th class="num">Unit price (USD)</th><th>Paid</th></tr></thead>
+            <tbody>
+              <tr><td>2026-03-01</td><td>Cooking oil 1 L</td><td>Grocery</td><td class="num">2</td><td class="num">3.20</td><td>Yes</td></tr>
+              <tr><td>2026-03-01</td><td>Detergent 1 kg</td><td>Household</td><td class="num">1</td><td class="num">3.10</td><td>Yes</td></tr>
+              <tr><td>2026-03-01</td><td>Chips</td><td>Snacks</td><td class="num">2</td><td class="num">0.70</td><td>Yes</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="actions">
+          <a class="btn" href="data/sunrise_corner_store_sales.csv" download>Download file</a>
+          <button class="secondary" type="button" id="copy-tidy" data-file="sunrise_corner_store_sales.csv">Copy as text</button>
+          <p class="status" id="status-tidy" role="status"></p>
+        </div>
+      </article>
+
+      <article class="sheet">
+        <div class="sheet-head">
+          <span class="tag">Chapter 5</span>
+          <p class="fname">sunrise_corner_store_sales_messy.csv</p>
+          <p class="desc">The same shop with seven kinds of mess planted in it. Use it to practice the cleaning checklist.</p>
+          <ul class="meta"><li>512 rows</li><li>6 columns</li><li>Mar to Apr 2026</li><li>21 KB</li></ul>
+        </div>
+        <p class="legend">Highlighted cells below show problems you will fix: a <b>blank</b> quantity, a <b>$</b> in a price, and <b>HOUSEHOLD</b> in capitals.</p>
+        <div class="scroller">
+          <table>
+            <thead><tr><th>Date</th><th>Item</th><th>Category</th><th class="num">Quantity</th><th class="num">Unit price (USD)</th><th>Paid</th></tr></thead>
+            <tbody>
+              <tr><td>2026-04-20</td><td>Toothpaste</td><td>Household</td><td class="num blank">&nbsp;</td><td class="num">1.60</td><td>Yes</td></tr>
+              <tr><td>2026-04-01</td><td>Chips</td><td>Snacks</td><td class="num">1</td><td class="num flag">$0.70</td><td>Yes</td></tr>
+              <tr><td>2026-03-15</td><td>Tea 500 g</td><td>Grocery</td><td class="num">2</td><td class="num">4.50</td><td>Yes</td></tr>
+              <tr><td>2026-04-17</td><td>Soap</td><td class="flag">HOUSEHOLD</td><td class="num">3</td><td class="num">0.90</td><td>Yes</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="actions">
+          <a class="btn" href="data/sunrise_corner_store_sales_messy.csv" download>Download file</a>
+          <button class="secondary" type="button" id="copy-messy" data-file="sunrise_corner_store_sales_messy.csv">Copy as text</button>
+          <p class="status" id="status-messy" role="status"></p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section aria-labelledby="start-h">
+    <h2 id="start-h">How to use a file</h2>
+    <ol class="steps">
+      <li><strong>Get the file</strong><span>Choose Download file. If your browser opens it instead, right-click the button and choose Save link as. You can also choose Copy as text and paste it into a new text file ending in .csv.</span></li>
+      <li><strong>Open it in a sheet</strong><span>In Google Sheets, choose File, then Import, then Upload. In Excel, open the file directly.</span></li>
+      <li><strong>Work on a copy</strong><span>Keep the original untouched. Rename your copy before you change anything.</span></li>
+    </ol>
+  </section>
+
+  <section class="note" aria-label="About the data">
+    <p>The English edition uses Sunrise Corner Store and US dollars. Files for the Urdu edition will be added here when that edition is ready.</p>
+    <p>You may use these files for learning and for your own practice portfolio. They do not describe any real business.</p>
+  </section>
+
+  <footer>
+    <p>Results from learning data skills depend on your effort, your market and how you find clients. Nothing in this book or on this page promises any income.</p>
+    <p>&copy; 2026 Shaista Sabir. All rights reserved.</p>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var texts = {};
+  var downloads = null;
+  var files = ["sunrise_corner_store_sales.csv", "sunrise_corner_store_sales_messy.csv"];
+
+  files.forEach(function (name) {
+    fetch("data/" + name)
+      .then(function (r) { return r.ok ? r.text() : Promise.reject(); })
+      .then(function (t) { texts[name] = t; })
+      .catch(function () { texts[name] = null; });
+  });
+
+  function slot(btn) { return btn.id.split("-")[1]; }
+  function say(key, msg) { document.getElementById("status-" + key).textContent = msg; }
+
+  document.querySelectorAll("button.secondary").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var key = slot(btn), name = btn.dataset.file, text = texts[name];
+      if (!text) { say(key, "The file is still loading. Try again in a moment."); return; }
+      var done = function () { say(key, "Copied. Paste it into a text file ending in .csv."); };
+      var fail = function () { say(key, "Copy was blocked here. Use Download file instead."); };
+      try {
+        navigator.clipboard.writeText(text).then(done, fail);
+      } catch (e) { fail(); }
+    });
+  });
+})();
+</script>
+</body>
+</html>
